@@ -168,12 +168,3 @@ select * from book where bookid not in (select bno from sales);
  
  
  -- ------------------
- create table TB_MEMBER (MEMBER_ID varchar(20), MEMBER_PW varchar(20), MEMBER_NAME varchar(20), GRADE INT, AREA_CODE INT);
- insert into TB_MEMBER values('hong01', 'pass01', '홍길동', 10,02);
- insert into TB_MEMBER values('leess99', 'pass02', '이순신', 10,032);
- insert into TB_MEMBER values('ss50000', 'pass03', '신사임당', 30,031);
- insert into TB_MEMBER values('iu93', 'pass04', '아이유', 30,02);
- insert into TB_MEMBER values('pcs1234', 'pass05', '박철수', 20,031);
- insert into TB_MEMBER values('you_js', 'pass06', '유재석', 10,02);
- insert into TB_MEMBER values('kyh9876', 'pass07', '김영희', 20,031);
- 

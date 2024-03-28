@@ -1,0 +1,26 @@
+package org.kh.dto;
+
+public class Book {
+	private int bookid;
+	private String bookkind;
+	private String booktitle;
+	private int bookprice;
+	private int bookcount;
+	private String author;
+	private String pubcom;
+	private String pubdate;
+	
+	public Book(int bookid, String bookkind, String booktitle, int bookprice, int bookcount, String author,
+			String pubcom, String pubdate) {
+		super();
+		this.bookid = bookid;
+		this.bookkind = bookkind;
+		this.booktitle = booktitle;
+		this.bookprice = bookprice;
+		this.bookcount = bookcount;
+		this.author = author;
+		this.pubcom = pubcom;
+		this.pubdate = pubdate;
+	}
+	
+}

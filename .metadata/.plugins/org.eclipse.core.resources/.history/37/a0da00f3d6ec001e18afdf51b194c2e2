@@ -1,0 +1,22 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>메인 페이지</title>
+</head>
+<body>
+<% 
+	pageContext.setAttribute("name", "김기테");
+%>
+<nav>
+	<ul>
+		<li><a=href="list.jsp">상품목록</a></li>
+		<li><a=href="ins.jsp">상품추가</a></li>
+		<li><a=href="upd.jsp">상품수정</a></li>
+	</ul>
+
+</nav>
+</body>
+</html>

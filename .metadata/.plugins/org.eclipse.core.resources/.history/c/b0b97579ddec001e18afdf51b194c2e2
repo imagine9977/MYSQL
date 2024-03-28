@@ -1,0 +1,12 @@
+package org.kh.dto;
+
+public class Book {
+	private int bookid;
+	private String bookkind;
+	private String booktitle;
+	private int bookprice;
+	private int bookcount;
+	private String author;
+	private String pubcom;
+	private String pubdate;
+}
