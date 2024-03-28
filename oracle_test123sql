@@ -1,0 +1,168 @@
+--테이블 생성
+create table member(no int not null, id varchar(20) primary key, pw varchar(300) , name varchar(100), birth timestamp, email varchar(300)); 
+--시퀸스 생성
+Create sequence c##test123.mem_seq increment by 1 start with 1 minvalue 1 maxvalue 9999 nocycle; 
+--멤버 생성
+Insert into member values(mem_seq.nextval, 'park', '1234','박동빈','1998-10-09', 'kkt@gmail.com'); 
+insert into member values(mem_seq.nextval, 'lee', '1004','이상현','1999-02-28', 'kkt1219@gmail.com'); 
+insert into member values(mem_seq.nextval, 'kim', '1004','김수현','1988-12-19', 'kkt1219@gmail.com'); 
+insert into member values(mem_seq.nextval, 'cho', '1006','조현수','2000-05-08', 'kkt121@gmail.com'); 
+insert into member values(mem_seq.nextval, 'koo', '1022','구현서','2000-05-08', 'kkt121@gmail.com');
+insert into member values(mem_seq.nextval, 'bae', '0909','배곤희','1999-03-08', 'kkt12132@gmail.com');
+
+select * from member;
+select id, name, birth from member 
+where birth>='1995-01-01' and birth<='2000-01-01'; --95년생 이후 00년생 이전 출생자들
+select id, name, birth from member 
+where birth between '1995-01-01' and '2000-01-01'; --95년생 이후 00년생 이전 출생자들
+select id, name, birth from member 
+where id like '%i%'; -- i가 포함된 id 목록 
+--%i%: i가 포함된/ i% i로 시작되는 / %i i로 끝나는 
+
+select id, name from member
+where id like '%i%' or id like '%e%';
+
+select * from member
+where id = 'kim' or id = 'lee';
+
+select * from member
+where id in ('kim', 'lee', 'park');
+
+select id, name, substr(name, 1,1) as surname from member;
+
+-- update
+update member set email='lee@naver.com' where id='lee';
+select * from member;
+
+
+--delete
+-- delete from member where id='kim';
+-- alter table member DROP COLUMN regfate;
+alter table member add regdate timestamp default sysdate;
+alter table member rename column regdate to reg;
+alter table member modify pw varchar(200);
+desc member;
+select * from member;
+
+commit;
+
+alter table member rename to temp1;
+desc temp1;
+
+
+create table temp2(no int, name varchar(200), point int);
+insert into temp2 values(1,'김',90);
+insert into temp2 values(2,'박',80);
+insert into temp2 values(3,'이',85);
+insert into temp2(name, point) values('최',85);
+alter table temp2 add constraints key1 primary key (no);
+
+create table emp(no int, name varchar(100), pcode int, constraints key2 primary key (no));
+insert into emp values (1,'이', 1);
+insert into emp values (2,'김', 2);
+insert into emp values (3,'김', 3);
+insert into emp values (4,'김', 4);
+insert into emp values (5,'김', 5);
+update emp set name='박'where no =3;
+update emp set name='최'where no =4;
+update emp set name='조'where no =5;
+
+create table pos(pcode int primary key, pname varchar(100));
+insert into pos values (1,'이사');
+insert into pos values (2,'부장');
+insert into pos values (3,'과장');
+insert into pos values (4,'사원');
+insert into pos values (5,'인턴');
+
+alter table emp add constraints fkey
+foreign key (pcode)references pos(pcode);
+-- 
+select * from emp;
+
+commit;
+-- 테이블 복제(단, 제약조건은 복제가 되지 않음)
+create table emp2 as select * from emp;
+
+desc emp2;
+
+select * from emp2;
+-- no 컬럼을 기본키로 설정
+alter table emp2 modify no int primary key;
+--------내부 join(inner)
+select a.no, a.name, b.pcode, b.pname
+from emp a inner join pos b on a.pcode=b.pcode;
+--------외부 join(left)
+select a.no, a.name, b.pcode, b.pname
+from emp a left join pos b on a.pcode=b.pcode;
+--------외부 join(right)
+select a.no, a.name, b.pcode, b.pname
+from emp a right join pos b on a.pcode=b.pcode;
+-- 연관쿼리
+select a.no, a.name, b.pname
+from emp a, pos b where a.pcode=b.pcode;
+
+select emp.no, emp.name, pos.pname
+from emp, pos where emp.pcode=pos.pcode;
+
+select * from emp2;
+delete from emp2 where no=3 or no=5;
+insert into emp2 values(7, '오', 4);
+insert into emp2 values(8, '정', 5);
+-- 서브쿼리 = 이중쿼리
+-- 서브쿼리(emp2 테이블에 존재하는 no만 emp 테이블 조회) => 일치쿼리(교집합)
+select no, name from emp
+where no in (select no from emp2);
+
+-- 서브쿼리(emp2 테이블에 존재하지 않는 no만 emp 테이블 조회) => 불일치쿼리(차집합)
+select no, name from emp
+where name not in (select name from emp2);
+
+select * from emp;
+select * from emp2;
+
+select * from emp, pos; -- 두 테이블 간의 product - emp:6, pos:5 => 6*5=30
+
+update emp set pcode=4 where no=4 or no=6 or no=2;
+
+select pcode, count(emp.no) as cnt 
+from emp group by pcode;
+
+-- 그룹화하는 항목과 출력되는 그룹 항목이 달라서(오류)
+select pos.pname, count(emp.no) as cnt
+from pos, emp where pos.pcode = emp.pcode
+group by pos.pcode;
+
+
+-- 직위별 인원수 join문 -> 그룹화하는 항목 : 직위명(pname)
+select pos.pname, count(emp.no) as cnt
+from pos inner join emp on pos.pcode = emp.pcode
+group by pos.pname;
+
+-- 직위별 인원수 연관쿼리 -> 그룹화하는 항목 : 직위명(pname)
+select pos.pname, count(emp.no) as cnt
+from pos, emp where pos.pcode = emp.pcode
+group by pos.pname 
+order by pos.pname; 
+
+-- 집계함수 : count, sum, avg, max, min
+
+-- 정렬하여 출력 : order by 컬럼명;
+-- 반드시 order by 구절은 맨 끝에다 지정해야하며, 출력되는 항목이어야 함
+select * from emp order by name desc;   -- desc:내림차순, 생략 또는 asc:오름차순
+
+-- 집합연산시에는 연산하는 두 개의 테이블의 구조가 같거나
+-- 연산하는 컬럼타입이 같아야 함.
+-- 집합연산 UNION(합집합), INTERSECT(교집합), MINUS(차집합) 
+create view uni_view as 
+(select no, pcode from emp union select no, pcode from emp2);
+select * from uni_view;
+create view int_view as 
+(select * from emp intersect select * from emp2);
+select * from int_view;
+
+create view min_view1 as 
+(select * from emp minus select * from emp2);
+create view min_view2 as 
+(select * from emp2 minus select * from emp);
+select * from min_view1;
+select * from min_view2;

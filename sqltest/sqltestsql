@@ -1,0 +1,95 @@
+-- 테이블 생성
+create table member( id varchar(12) primary key, pw varchar(12) not null, 
+		name varchar(20) not null, address varchar(100), tel varchar(20) not null, 
+        req_date timestamp DEFAULT sysdate);
+--
+--멤버 추가
+insert into member values('bgh', 'a1234',	'배곤희',	'신사동 912',	'010-1111-2222',	'2023-09-13');
+
+insert into member values('yjh', 'a3421',	'유정환',	'강일동 128',	'02-2222-3333',	'2023-09-13');
+insert into member values('lmk',	'b1111',	'이민규',	'수유동 1004',	'010-3333-4444',	'2023-09-14');
+insert into member values('lsh',	'c456',	'이성하', '화곡1동 37',	'010-4444-5555',	'2023-09-15');
+insert into member values('lyj',	'z675',	'이연정',	'난곡동 67',	'02-4444-2222',	'2023-09-11');
+insert into member values('lyl',	'q789',	'이예린',	'능동 13',	'010-5555-6666',	'2023-09-15');
+insert into member values('lws',	'g478',	'이원석',	'고척1동 178',	'010-6666-7777','2023-09-13');
+insert into member values('ljh',	'd666',	'이정희',	'독산1동 75',	'010-7777-8888',	'2023-09-14');
+insert into member values('ljw',	'e964',	'이종우',	'상계동 777',	'02-5555-2222',	'2023-09-05');
+insert into member values('jib',	'h369',	'장인범',	'쌍문3동 888',	'010-8888-9999',	'2023-09-16');
+
+select * from member;
+
+select * from member where 'l%';
+
+create sequence mem_seq increment by 1 start with 1 minvalue 1 maxvalue 9999 nocycle;
+create table book( 
+        bookid INT primary key, 
+        bookkind varchar(10) not null, 
+		booktitle varchar(50) not null,
+        bookprice INT not null, 
+        bookcount INT not null,
+        author varchar(40), 
+        pubcom varchar(40), 
+        pubdate timestamp);
+        
+desc book;
+commit;
+select * from book;
+insert into book values (mem_seq.nextval, 'IT',	'이것이 자바다',	30000,	10,	'신용권',	'한빛미디어',	'2021-08-20');
+
+insert into book values (mem_seq.nextval, 'IT',	'자바웹개발워크북',	31500,	19,	'구멍가게코딩단',	'남가람북스',	'2022-08-04');
+insert into book values (mem_seq.nextval, 'NV',	'하얼빈',	14400,	15,	'김훈',	'문학동네',	'2022-08-03');
+insert into book values (mem_seq.nextval, 'NV',	'불편한편의점',	12600,	10,	'김호연',	'나무옆의자',	'2022-08-10');
+insert into book values (mem_seq.nextval, 'DV',	'역행자',	15750,	8,	'자청',	'웅진출판',	'2022-05-30');
+
+insert into book values (mem_seq.nextval, 'DV',	'자소서바이블',	18000,	15,	'이형',	'엔알디',	'2022-08-25');
+insert into book values (mem_seq.nextval, 'HC',	'벌거벗은한국사',	17500,	10,	'tvn',	'프런트페이지',	'2022-08-22');
+insert into book values (mem_seq.nextval, 'HC',	'난중일기	',14000,	30,	'이순신',	'스타북스',	'2022-07-27');
+insert into book values (mem_seq.nextval, 'TC',	'진짜쓰는실무엑셀',	20000,	10,	'전진권',	'제이펍',	'2022-02-15');
+insert into book values (mem_seq.nextval, 'TC',	'빅데이터인공지능',	25000,	15,	'박해선',	'한빛미디어',	'2020-12-21');
+
+
+--sales는 행위 테이블이여야 한다. 
+create sequence b_seq increment by 1 start with 1 minvalue 1 maxvalue 9999 nocycle;
+create table sales( 
+        sno INT primary key, 
+        bno INT not null, 
+        id varchar(12) not null, 
+
+        amount INT DEFAULT 1 not null, --not null은 마지막에 와야 한다
+        money INT,
+        salesday timestamp DEFAULT sysdate);
+--drop table sales;     
+desc sales;
+commit;
+--번외: Insert into sales values(b_seq.nextval, 1, 'bgh',1,null,sysdate );
+Insert into sales (sno, bno, id, amount) values(b_seq.nextval, 1, 'bgh',1 );
+
+Insert into sales (sno, bno, id, amount) values(b_seq.nextval, 2, 'lmk',1 );
+Insert into sales (sno, bno, id, amount) values(b_seq.nextval, 1, 'lsh',2 );
+Insert into sales (sno, bno, id, amount) values(b_seq.nextval, 9, 'lyj',1 );
+Insert into sales (sno, bno, id, amount) values(b_seq.nextval, 2, 'lyl',5 );
+Insert into sales (sno, bno, id, amount) values(b_seq.nextval, 2, 'ljh',3 );
+Insert into sales (sno, bno, id, amount) values(b_seq.nextval, 3, 'ljw',2 );
+Insert into sales (sno, bno, id, amount) values(b_seq.nextval, 4, 'jib',4 );
+Insert into sales (sno, bno, id, amount) values(b_seq.nextval, 5, 'lmk',8 );
+Insert into sales (sno, bno, id, amount) values(b_seq.nextval, 1, 'bgh',3 );
+Insert into sales (sno, bno, id, amount) values(b_seq.nextval, 2, 'lmk',4 );
+Insert into sales (sno, bno, id, amount) values(b_seq.nextval, 7, 'lyl',1 );
+Insert into sales (sno, bno, id, amount) values(b_seq.nextval, 8, 'ljw',2 );
+Insert into sales (sno, bno, id, amount) values(b_seq.nextval, 10, 'jib',5 );
+Insert into sales (sno, bno, id, amount) values(b_seq.nextval, 1, 'lmk',3 );
+Insert into sales (sno, bno, id, amount) values(b_seq.nextval, 2, 'jib',2 );
+Insert into sales (sno, bno, id, amount) values(b_seq.nextval, 2, 'lyj',1 );
+Insert into sales (sno, bno, id, amount) values(b_seq.nextval, 1, 'jib',3 );
+
+select * from sales;
+select bookprice from book where bookid in (select bno from sales);
+select a.bookprice from book a inner join sales b on a.bookid=b.bno;
+update sales set money=(select bookprice from book  where bookid=sales.bno)*amount;
+
+--alter table member rename column areacode ;
+-- 10.
+
+
+-- 35) order by44                                 
+order by author;

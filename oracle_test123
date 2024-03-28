@@ -1,0 +1,10 @@
+create table member(no int not null, id varchar(20) primary key, pw varchar(300) , name varchar(100), birth timestamp, email varchar(300)); 
+Create sequence c##test123.mem_seq increment by 1 start with 1 minvalue 1 maxvalue 9999 nocycle; 
+Insert into member values(mem_seq.nextval, 'park', '1234','¹Úµ¿ºó','1998-10-09', 'kkt@gmail.com'); 
+insert into member values(mem_seq.nextval, 'lee', '1004','ÀÌ»óÇö','1999-02-28', 'kkt1219@gmail.com'); 
+insert into member values(mem_seq.nextval, 'kim', '1004','±è¼öÇö','1988-12-19', 'kkt1219@gmail.com'); 
+insert into member values(mem_seq.nextval, 'cho', '1006','Á¶Çö¼ö','2000-05-08', 'kkt121@gmail.com'); 
+insert into member values(mem_seq.nextval, 'koo', '1022','±¸Çö¼­','2000-05-08', 'kkt121@gmail.com');
+insert into member values(mem_seq.nextval, 'bae', '0909','¹è°ïÈñ','1999-03-08', 'kkt12132@gmail.com');
+
+select * from member;
